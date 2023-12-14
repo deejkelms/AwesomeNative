@@ -5,6 +5,12 @@ import dizzyDish from './assets/dizzyDishNative.png';
 import dishes from './assets/dishes';
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#ffffff',
+  },
   center: {
     alignItems: 'center',
     display: 'flex',
@@ -12,12 +18,29 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   header: {
+    marginTop: 24,
     fontWeight: '700',
     textTransform: 'uppercase',
     fontSize: 64,
     textShadowColor: '#ff69b4',
     textShadowOffset: {width: 4, height: 4},
     textShadowRadius: 0,
+  },
+  foodLabel: {
+    marginTop: 24,
+  },
+  foodLabelText: {
+    height: 60,
+    fontFamily: 'impact',
+    color: '#3498db',
+    fontSize: 32,
+  },
+  spinner: {
+    width: '80%',
+    height: '50%',
+  },
+  spin: {
+    transform: [{rotate: '1800deg'}],
   },
   button: {
     padding: 15,
@@ -34,17 +57,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const Header = () => {
-  return (
-    <View style={styles.center}>
-      <Text style={styles.header}>Dizzy Dish</Text>
-    </View>
-  );
-};
-
 const App = () => {
   const [label, setLabel] = useState('');
   const [spinning, setSpinning] = useState(false);
+
+  if (!dishes) {
+    return null;
+  }
 
   const letUsFeast = () => {
     setLabel('');
@@ -60,10 +79,20 @@ const App = () => {
   };
 
   return (
-    <View style={[styles.center]}>
-      <Header />
-      <Text>{label}</Text>
-      <Image source={dizzyDish} style={{width: 200, height: 200}} />
+    <View style={[styles.container]}>
+      <View style={styles.center}>
+        <Text style={styles.header}>Dizzy Dish</Text>
+      </View>
+      {/* Whats for dinner */}
+      <View style={styles.foodLabel}>
+        <Text style={styles.foodLabelText}>{label}</Text>
+      </View>
+      {/* Spin the spinner */}
+      <Image
+        style={[styles.spinner, spinning && styles.spin]}
+        source={dizzyDish}
+        resizeMode="contain"
+      />
       <TouchableOpacity
         style={[
           styles.button,
